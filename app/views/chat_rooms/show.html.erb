@@ -1,0 +1,12 @@
+<h1 data-chatroom-id="<%= @chat_room.id %>" id="chat-room-id">Chat Room: <%= @chat_room.name %></h1>
+
+<div id="messages">
+  <% @messages.each do |message| %>
+    <p><strong><%= message.user.name %>:</strong> <%= message.content %></p>
+  <% end %>
+</div>
+
+<form id="new-message-form">
+  <input type="text" id="message-input" placeholder="メッセージを入力...">
+  <input type="submit" value="送信">
+</form>

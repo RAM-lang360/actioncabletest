@@ -9,7 +9,12 @@ class ChatRoomChannel < ApplicationCable::Channel
 
   def receive(data)
     # クライアントからメッセージを受け取り、保存してブロードキャスト
-    message = Message.create!(content: data["message"], user_id: current_user.id)
-    ActionCable.server.broadcast("chat_room_#{params[:room_id]}", message: message.content, user: message.user.name)
+    puts data["message"] # デバッグ用に受け取ったメッセージを出力
+    message = Message.new(content: data["message"], user_id: 1, chat_room_id: 1)
+    if message.save!
+      ActionCable.server.broadcast("chat_room_#{params[:room_id]}", message: message.content)
+    else
+      puts "メッセージの保存に失敗しました: #{message.errors.full_messages.join(', ')}"
+    end
   end
 end
